@@ -20,6 +20,15 @@ export const users = pgTable("user", {
  image: text("image"),
 })
 
+export const boards = pgTable("boards", {
+  id: text("id").notNull().primaryKey(),
+  name: text("name"),
+  title: text("title"),
+  votes: integer("votes"),
+  board: text("board").array().notNull(),
+  createdAt: timestamp("created_at"),
+})
+ 
 export const accounts = pgTable(
 "account",
 {
