@@ -3,20 +3,69 @@
 import { ModeToggle } from "@/components/mode-toggle"
 import { Button } from "@/components/ui/button"
 import { signIn, signOut, useSession } from "next-auth/react"
+import Image from "next/image"
 
-export function Header() {
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger
+} from "@/components/ui/dropdown-menu"
+import { LogInIcon, LogOutIcon } from "lucide-react"
+import Link from "next/link"
+
+function AccountDropdown() {
   const session = useSession()
 
   return (
-    <header>
-      <div>
-        {session.data ? (
-          <Button onClick={() => signOut()}>Sign out</Button>
-        ) : (
-          <Button onClick={() => signIn("google")}>Sign in</Button>
-        )}
-        {session.data?.user?.name}
-        <ModeToggle />
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant={"outline"}>{session.data?.user?.name}</Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent>
+        <DropdownMenuItem
+          onClick={() =>
+            signOut({
+              callbackUrl: "/"
+            })
+          }
+        >
+          <LogOutIcon size={18} className="mr-2" /> Sign Out
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
+}
+
+export function Header() {
+  const session = useSession()
+  const isLoggedIn = !!session.data
+
+  return (
+    <header className="px-10 bg-neutral-100 dark:bg-neutral-900 h-[60px] backdrop-blur flex items-center w-full fixed">
+      <div className="flex justify-between items-center w-full">
+        <Link
+          className="text-lg font-semibold flex items-center gap-2 hover:opacity-90 ease-in transition"
+          href="/"
+        >
+          <Image
+            src="/teamfight-tactics.png"
+            width="28"
+            height="28"
+            alt="Application logo"
+          />
+          TFT Forge
+        </Link>
+
+        <div className="flex items-center gap-3">
+          {isLoggedIn && <AccountDropdown />}
+          {!isLoggedIn && (
+            <Button onClick={() => signIn()} variant="outline">
+              <LogInIcon size={18} className="mr-2" /> Sign In
+            </Button>
+          )}
+          <ModeToggle />
+        </div>
       </div>
     </header>
   )
