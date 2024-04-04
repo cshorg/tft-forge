@@ -2,7 +2,8 @@ import CreateBoardForm from "./create-board-form"
 
 export default function CreateBoard() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
+    <main className="container mx-auto flex flex-col gap-10 py-6">
+      <h1 className="text-4xl font-semibold">Create Board</h1>
       <CreateBoardForm />
     </main>
   )

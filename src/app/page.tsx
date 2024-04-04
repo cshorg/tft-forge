@@ -1,12 +1,17 @@
 import { db } from "@/db"
 
 export default async function Home() {
-  const items = await db.query.testing.findMany()
+  const boards = await db.query.boards.findMany()
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      {items.map((item, i) => {
-        return <div key={i}>{item.name}</div>
+      {boards.map((board, i) => {
+        return (
+          <div key={board.id}>
+            <h1>{board.title}</h1>
+            <p>{board.description}</p>
+          </div>
+        )
       })}
     </main>
   )

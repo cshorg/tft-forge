@@ -1,16 +1,13 @@
+import { sql } from "drizzle-orm";
 import {
   timestamp,
   pgTable,
   text,
   primaryKey,
- integer
+  integer,
+  uuid
 } from "drizzle-orm/pg-core"
 import type { AdapterAccount } from '@auth/core/adapters'
-
-export const testing = pgTable("testing", {
-  id: text("id").notNull().primaryKey(),
-  name: text("name")
-})
 
 export const users = pgTable("user", {
  id: text("id").notNull().primaryKey(),
@@ -18,15 +15,6 @@ export const users = pgTable("user", {
  email: text("email").notNull(),
  emailVerified: timestamp("emailVerified", { mode: "date" }),
  image: text("image"),
-})
-
-export const boards = pgTable("boards", {
-  id: text("id").notNull().primaryKey(),
-  name: text("name"),
-  title: text("title"),
-  votes: integer("votes"),
-  board: text("board").array().notNull(),
-  createdAt: timestamp("created_at"),
 })
  
 export const accounts = pgTable(
@@ -70,3 +58,12 @@ export const verificationTokens = pgTable(
    compoundKey: primaryKey({ columns: [vt.identifier, vt.token] }),
  })
 )
+
+export const boards = pgTable("boards", {
+  id: uuid('id').default(sql`gen_random_uuid()`).notNull().primaryKey(),
+  userId: text("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  title: text("title"),
+  description: text("description"),
+})
+
+export type Board = typeof boards.$inferSelect
