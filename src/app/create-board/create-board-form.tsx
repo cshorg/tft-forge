@@ -2,11 +2,12 @@
 
 import { createBoardAction } from "./actions"
 import { z } from "zod"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
+import Image from "next/image"
 import {
   Form,
   FormControl,
@@ -19,35 +20,27 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { useRouter } from "next/navigation"
-import Image from "next/image"
 
 const formSchema = z.object({
   title: z.string().min(5).max(50),
   description: z.string().min(2).max(250)
 })
 
+interface Champion {
+  name: string
+  apiName: string
+  traits: string
+  squareIcon: string
+  cost: number
+}
+
 export default function CreateBoardForm() {
-  // temp data
-  const [champs, setChamps] = useState([
-    {
-      name: "Volibear",
-      rarity: 3,
-      type: ["InkShadow", "Duelist"],
-      about: "Duelist player"
-    },
-    {
-      name: "Tristana",
-      rarity: 3,
-      type: ["Fortune", "Duelist"],
-      about: "Duelist player"
-    }
-  ])
+  const [champions, setChampions] = useState<Champion[]>([])
   const router = useRouter()
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -62,6 +55,21 @@ export default function CreateBoardForm() {
     await createBoardAction(values)
     router.push("/")
   }
+
+  const getData = async () => {
+    fetch("https://raw.communitydragon.org/14.6/cdragon/tft/en_us.json")
+      .then((res) => {
+        res.json().then((data) => {
+          setChampions(data["sets"][11]["champions"])
+          console.log(data["sets"][11]["champions"])
+        })
+      })
+      .catch((e) => console.log(e))
+  }
+
+  useEffect(() => {
+    getData()
+  }, [])
 
   return (
     <>
@@ -99,14 +107,39 @@ export default function CreateBoardForm() {
           </CardDescription>
         </CardHeader>
         <CardContent className="flex gap-2 flex-wrap">
-          {champs.map((champ) => (
-            <div
-              draggable
-              className="h-14 rounded-sm w-14 border-[1px] border-neutral-100/10 flex items-center justify-center cursor-pointer text-xs"
-            >
-              {champ.name}
-            </div>
-          ))}
+          {champions!.map((champ) => {
+            const borderColor =
+              champ.cost === 1
+                ? "border-[#b5b5b5]"
+                : champ.cost === 2
+                ? "border-[#5e5e5e]"
+                : champ.cost === 3
+                ? "border-[#4b8f00]"
+                : champ.cost === 4
+                ? "border-[#0077c8]"
+                : champ.cost === 5
+                ? "border-[#a335ee]"
+                : "border-[#ff8000]"
+
+            return (
+              champ.traits.length > 0 && (
+                <div
+                  draggable
+                  key={champ.apiName}
+                  className={`${borderColor} rounded-sm border-[2px] flex items-center justify-center cursor-pointer text-xs`}
+                >
+                  <Image
+                    src={`https://raw.communitydragon.org/latest/game/${champ.squareIcon
+                      ?.toLowerCase()
+                      ?.replace(/\.(tex|dds)$/, ".png")}`}
+                    width={60}
+                    height={60}
+                    alt="image"
+                  />
+                </div>
+              )
+            )
+          })}
         </CardContent>
       </Card>
       <Form {...form}>
