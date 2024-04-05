@@ -11,7 +11,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
-import { LogInIcon, LogOutIcon } from "lucide-react"
+import { LogInIcon, LogOutIcon, UserIcon } from "lucide-react"
 import Link from "next/link"
 
 function AccountDropdown() {
@@ -22,8 +22,13 @@ function AccountDropdown() {
       <DropdownMenuTrigger asChild>
         <Button variant={"outline"}>{session.data?.user?.name}</Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent>
+      <DropdownMenuContent align="end">
+        <DropdownMenuItem className="cursor-pointer">
+          <UserIcon size={18} className="mr-2" />
+          Profile
+        </DropdownMenuItem>
         <DropdownMenuItem
+          className="cursor-pointer"
           onClick={() =>
             signOut({
               callbackUrl: "/"
@@ -42,7 +47,7 @@ export function Header() {
   const isLoggedIn = !!session.data
 
   return (
-    <header className="px-10 bg-neutral-100 dark:bg-neutral-900 h-[60px] backdrop-blur flex items-center w-full fixed">
+    <header className="px-10 bg-neutral-100 dark:bg-neutral-900 h-[60px] z-10 border-b-[1px] flex items-center w-full fixed">
       <div className="flex justify-between items-center w-full">
         <Link
           className="text-lg font-semibold flex items-center gap-2 hover:opacity-90 ease-in transition"

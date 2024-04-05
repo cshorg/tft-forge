@@ -74,3 +74,20 @@
     @apply bg-background text-foreground;
   }
 }
+
+.hexagon {
+  z-index: 1;
+  width: 94px;
+  height: 103.4px;
+  -webkit-clip-path: polygon(
+    50% 0%,
+    100% 25%,
+    100% 75%,
+    50% 100%,
+    0% 75%,
+    0% 25%
+  );
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  cursor: pointer;
+  user-select: none;
+}
