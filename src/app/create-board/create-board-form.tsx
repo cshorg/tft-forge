@@ -2,11 +2,12 @@
 
 import { createBoardAction } from "./actions"
 import { z } from "zod"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
+
 import {
   Form,
   FormControl,
@@ -24,23 +25,55 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { useRouter } from "next/navigation"
+import { it } from "node:test"
 
 const formSchema = z.object({
   title: z.string().min(5).max(50),
   description: z.string().min(2).max(250)
 })
 
-export default function CreateBoardForm() {
+export default function CreateBoardForm({ data }: { data: any }) {
   const router = useRouter()
+  const championData = data["sets"][11]["champions"].filter(
+    (champ: any) => champ.traits.length > 0
+  )
+  const itemData = data["items"]
+
   const [board, setBoard] = useState<any[]>(
     Array.from({ length: 4 }, () =>
       Array.from({ length: 7 }, () => ({ name: "", img: "" }))
     )
   )
-  const [champions, setChampions] = useState([
-    { name: "Volibear" },
-    { name: "Teemo" }
-  ])
+  const checkArray = [
+    "ASSETS/Maps/Particles/TFT/Item_Icons/Standard/Rabadons_Deathcap.tex",
+    "ASSETS/Maps/Particles/TFT/Item_Icons/Standard/Rabadons_Deathcap.tex",
+    "ASSETS/Maps/Particles/TFT/Item_Icons/Standard/Rabadons_Deathcap.tex",
+    "ASSETS/Maps/Particles/TFT/Item_Icons/Standard/Rabadons_Deathcap.tex",
+    "ASSETS/Maps/Particles/TFT/Item_Icons/Standard/Rabadons_Deathcap.tex",
+    "ASSETS/Maps/Particles/TFT/Item_Icons/Standard/Rabadons_Deathcap.tex",
+    "ASSETS/Maps/Particles/TFT/Item_Icons/Standard/Rabadons_Deathcap.tex",
+    "ASSETS/Maps/Particles/TFT/Item_Icons/Standard/Rabadons_Deathcap.tex",
+    "ASSETS/Maps/Particles/TFT/Item_Icons/Standard/Rabadons_Deathcap.tex",
+    "ASSETS/Maps/Particles/TFT/Item_Icons/Standard/Rabadons_Deathcap.tex",
+    "ASSETS/Maps/Particles/TFT/Item_Icons/Standard/Rabadons_Deathcap.tex"
+  ]
+
+  // const testing = () => {
+  //   return itemData.filter((item: any) => {
+  //     const check = item.icon.startsWith(
+  //       "ASSETS/Maps/Particles/TFT/Item_Icons/Standard/"
+  //     )
+
+  //     if (check) {
+  //       checkArray.push(item)
+  //     }
+  //   })
+  // }
+
+  // useEffect(() => {
+  //   testing()
+  //   console.log(checkArray)
+  // }, [])
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -72,10 +105,7 @@ export default function CreateBoardForm() {
 
     // remove from previous position if it exists
     if (selectedChampion.x !== undefined && selectedChampion.y !== undefined) {
-      updatedBoard[selectedChampion.x][selectedChampion.y] = {
-        name: "",
-        image: ""
-      }
+      updatedBoard[selectedChampion.x][selectedChampion.y] = {}
     }
 
     // check if slot is occupied && selectedChampion has x/y
@@ -92,7 +122,6 @@ export default function CreateBoardForm() {
       tempChampion.y = selectedChampion.y
       selectedChampion.x = row
       selectedChampion.y = col
-      console.log("swapped")
     } else {
       updatedBoard[row][col] = {
         ...selectedChampion,
@@ -135,11 +164,16 @@ export default function CreateBoardForm() {
     setBoard(updatedBoard)
   }
 
+  useEffect(() => {}, [])
+
   return (
     <>
       <div className="flex justify-between">
         <Card className="p-6">
-          <CardTitle>Traits</CardTitle>
+          <CardHeader>
+            <CardTitle> Traits</CardTitle>
+          </CardHeader>
+          <CardContent className="flex gap-2 flex-wrap max-w-[280px]"></CardContent>
         </Card>
         <div className="flex flex-col justify-center items-center">
           {board.map((row, rowIndex) => (
@@ -158,14 +192,35 @@ export default function CreateBoardForm() {
                   onDrop={(e) => handleDrop(e, rowIndex, slotIndex)}
                   className="w-[65px] rounded-sm h-[65px] mt-3 bg-neutral-900 flex items-center justify-center cursor-pointer"
                 >
-                  {slot.name}
+                  {slot.name && (
+                    <img
+                      src={`https://raw.communitydragon.org/latest/game/${slot.tileIcon
+                        .toLowerCase()
+                        .replace(/\.(tex|dds)$/, ".png")}`}
+                      alt="champion"
+                    />
+                  )}
                 </div>
               ))}
             </div>
           ))}
         </div>
-        <Card className="p-6">
-          <CardTitle> Items</CardTitle>
+        <Card className="">
+          <CardHeader>
+            <CardTitle> Items</CardTitle>
+          </CardHeader>
+          <CardContent className="flex gap-2 flex-wrap max-w-[280px]">
+            {checkArray.map((item: any) => (
+              <img
+                src={`https://raw.communitydragon.org/latest/game/${item
+                  .toLowerCase()
+                  .replace(/\.(tex|dds)$/, ".png")}`}
+                height={40}
+                width={40}
+                alt="item"
+              />
+            ))}
+          </CardContent>
         </Card>
       </div>
 
@@ -177,16 +232,18 @@ export default function CreateBoardForm() {
           </CardDescription>
         </CardHeader>
         <CardContent className="flex gap-2 flex-wrap">
-          {champions.map((champion) => (
-            <div
+          {championData.map((champion: any) => (
+            <img
+              src={`https://raw.communitydragon.org/latest/game/${champion.tileIcon
+                .toLowerCase()
+                .replace(/\.(tex|dds)$/, ".png")}`}
+              alt="champion"
               draggable
               key={champion.name}
               onClick={() => handleAdd(champion)}
               onDragStart={(e) => handleDrag(e, champion)}
-              className="w-20 h-20 border-[1px] cursor-pointer rounded-sm flex items-center justify-center"
-            >
-              {champion.name}
-            </div>
+              className="w-14 h-14 border-[1px] cursor-pointer rounded-sm flex items-center justify-center"
+            />
           ))}
         </CardContent>
       </Card>

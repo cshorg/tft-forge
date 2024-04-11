@@ -41,25 +41,25 @@ export default async function Home() {
               </h1>
             </div>
 
+            <div className="flex gap-2">traits here</div>
+
             <div className="flex gap-2">
-              {board.description &&
-                new Array(10)
-                  .fill(0)
-                  .map((_, i) => (
-                    <div
-                      key={i}
-                      className="w-10 h-10 border-[1px] rounded-sm"
-                    ></div>
-                  ))}
+              {filteredData.map(
+                (slot: any, index: number) =>
+                  slot &&
+                  slot.tileIcon && (
+                    <img
+                      key={index}
+                      src={`https://raw.communitydragon.org/latest/game/${slot.tileIcon
+                        .toLowerCase()
+                        .replace(/\.(tex|dds)$/, ".png")}`}
+                      alt="champion"
+                      height={56}
+                      width={56}
+                    />
+                  )
+              )}
             </div>
-
-            {filteredData.map((slot: any, index: number) => (
-              <div key={index}>
-                {slot.name}, Image: {slot.img}
-              </div>
-            ))}
-
-            <div className="flex gap-2"></div>
             <Button asChild variant={"outline"}>
               <Link href={`/board/${board.id}`}>View Build</Link>
             </Button>
