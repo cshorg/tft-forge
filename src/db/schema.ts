@@ -59,11 +59,19 @@ export const verificationTokens = pgTable(
  })
 )
 
+export const layout = pgTable("layout", {
+  name: text("name"),
+  image: text("image"),
+  x: integer("x"),
+  y: integer("y"),
+})
+
 export const boards = pgTable("boards", {
   id: uuid('id').default(sql`gen_random_uuid()`).notNull().primaryKey(),
   userId: text("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
   title: text("title"),
   description: text("description"),
+  board: text("board").notNull()
 })
 
 export type Board = typeof boards.$inferSelect

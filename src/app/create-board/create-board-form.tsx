@@ -2,12 +2,11 @@
 
 import { createBoardAction } from "./actions"
 import { z } from "zod"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
-import Image from "next/image"
 import {
   Form,
   FormControl,
@@ -31,17 +30,17 @@ const formSchema = z.object({
   description: z.string().min(2).max(250)
 })
 
-interface Champion {
-  name: string
-  apiName: string
-  traits: string
-  squareIcon: string
-  cost: number
-}
-
 export default function CreateBoardForm() {
-  const [champions, setChampions] = useState<Champion[]>([])
   const router = useRouter()
+  const [board, setBoard] = useState<any[]>(
+    Array.from({ length: 4 }, () =>
+      Array.from({ length: 7 }, () => ({ name: "", img: "" }))
+    )
+  )
+  const [champions, setChampions] = useState([
+    { name: "Volibear" },
+    { name: "Teemo" }
+  ])
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -52,24 +51,89 @@ export default function CreateBoardForm() {
   })
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    await createBoardAction(values)
+    const boardString = JSON.stringify(board)
+    const data = { ...values, board: boardString }
+    await createBoardAction(data)
     router.push("/")
   }
 
-  const getData = async () => {
-    fetch("https://raw.communitydragon.org/14.6/cdragon/tft/en_us.json")
-      .then((res) => {
-        res.json().then((data) => {
-          setChampions(data["sets"][11]["champions"])
-          console.log(data["sets"][11]["champions"])
-        })
-      })
-      .catch((e) => console.log(e))
+  const handleDrag = (e: any, champ: any) => {
+    e.dataTransfer.setData("selectedChamp", JSON.stringify(champ))
   }
 
-  useEffect(() => {
-    getData()
-  }, [])
+  const handleDragOver = (e: any) => {
+    e.preventDefault()
+  }
+
+  const handleDrop = (e: any, row: number, col: number) => {
+    e.preventDefault()
+    const selectedChampion = JSON.parse(e.dataTransfer.getData("selectedChamp"))
+    const updatedBoard = [...board]
+
+    // remove from previous position if it exists
+    if (selectedChampion.x !== undefined && selectedChampion.y !== undefined) {
+      updatedBoard[selectedChampion.x][selectedChampion.y] = {
+        name: "",
+        image: ""
+      }
+    }
+
+    // check if slot is occupied && selectedChampion has x/y
+    if (
+      updatedBoard[row][col].name !== "" &&
+      selectedChampion.x !== undefined &&
+      selectedChampion.y !== undefined
+    ) {
+      // swap the champions
+      const tempChampion = updatedBoard[row][col]
+      updatedBoard[row][col] = selectedChampion
+      updatedBoard[selectedChampion.x][selectedChampion.y] = tempChampion
+      tempChampion.x = selectedChampion.x
+      tempChampion.y = selectedChampion.y
+      selectedChampion.x = row
+      selectedChampion.y = col
+      console.log("swapped")
+    } else {
+      updatedBoard[row][col] = {
+        ...selectedChampion,
+        x: row,
+        y: col
+      }
+    }
+
+    setBoard(updatedBoard)
+    console.log(board)
+  }
+
+  const handleAdd = (champion: any) => {
+    const updatedBoard = [...board]
+    let rowIndex = 0
+    let slotIndex = 0
+
+    for (let i = 0; i < updatedBoard.length; i++) {
+      for (let j = 0; j < updatedBoard[i].length; j++) {
+        if (Object.keys(updatedBoard[i][j]).length === 0) {
+          rowIndex = i
+          slotIndex = j
+          break
+        }
+      }
+    }
+
+    const updatedChampion = Object.assign({}, champion, {
+      x: rowIndex,
+      y: slotIndex
+    })
+
+    updatedBoard[rowIndex][slotIndex] = updatedChampion
+    setBoard(updatedBoard)
+  }
+
+  const handleRemove = (rowIndex: number, slotIndex: number) => {
+    const updatedBoard = [...board]
+    updatedBoard[rowIndex][slotIndex] = {}
+    setBoard(updatedBoard)
+  }
 
   return (
     <>
@@ -78,18 +142,24 @@ export default function CreateBoardForm() {
           <CardTitle>Traits</CardTitle>
         </Card>
         <div className="flex flex-col justify-center items-center">
-          {new Array(4).fill(null).map((_, rowIndex) => (
+          {board.map((row, rowIndex) => (
             <div
               key={rowIndex}
               className={`flex ${
                 rowIndex % 2 !== 0 ? "ml-[108px] relative" : ""
               } gap-3`}
             >
-              {new Array(7).fill(null).map((slot, slotIndex) => (
+              {row.map((slot: any, slotIndex: number) => (
                 <div
                   key={slotIndex}
-                  className="w-[65px] rounded-sm h-[65px] mt-3 bg-neutral-900"
-                ></div>
+                  onClick={() => handleRemove(rowIndex, slotIndex)}
+                  onDragStart={(e) => handleDrag(e, slot)}
+                  onDragOver={handleDragOver}
+                  onDrop={(e) => handleDrop(e, rowIndex, slotIndex)}
+                  className="w-[65px] rounded-sm h-[65px] mt-3 bg-neutral-900 flex items-center justify-center cursor-pointer"
+                >
+                  {slot.name}
+                </div>
               ))}
             </div>
           ))}
@@ -107,39 +177,17 @@ export default function CreateBoardForm() {
           </CardDescription>
         </CardHeader>
         <CardContent className="flex gap-2 flex-wrap">
-          {champions!.map((champ) => {
-            const borderColor =
-              champ.cost === 1
-                ? "border-[#b5b5b5]"
-                : champ.cost === 2
-                ? "border-[#5e5e5e]"
-                : champ.cost === 3
-                ? "border-[#4b8f00]"
-                : champ.cost === 4
-                ? "border-[#0077c8]"
-                : champ.cost === 5
-                ? "border-[#a335ee]"
-                : "border-[#ff8000]"
-
-            return (
-              champ.traits.length > 0 && (
-                <div
-                  draggable
-                  key={champ.apiName}
-                  className={`${borderColor} rounded-sm border-[2px] flex items-center justify-center cursor-pointer text-xs`}
-                >
-                  <Image
-                    src={`https://raw.communitydragon.org/latest/game/${champ.squareIcon
-                      ?.toLowerCase()
-                      ?.replace(/\.(tex|dds)$/, ".png")}`}
-                    width={60}
-                    height={60}
-                    alt="image"
-                  />
-                </div>
-              )
-            )
-          })}
+          {champions.map((champion) => (
+            <div
+              draggable
+              key={champion.name}
+              onClick={() => handleAdd(champion)}
+              onDragStart={(e) => handleDrag(e, champion)}
+              className="w-20 h-20 border-[1px] cursor-pointer rounded-sm flex items-center justify-center"
+            >
+              {champion.name}
+            </div>
+          ))}
         </CardContent>
       </Card>
       <Form {...form}>

@@ -7,7 +7,6 @@ import { revalidatePath } from "next/cache"
 
 export async function createBoardAction(boardData: Omit<Board, "id" | "userId">) {
   const session = await getSession()
-  console.log(session)
 
   if (!session) {
     throw new Error("Unauthorized")
