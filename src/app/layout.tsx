@@ -1,8 +1,10 @@
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
-import "./globals.css"
 import { Providers } from "./providers"
-import { Header } from "./header"
+import { Header } from "@/components/header"
+import NextTopLoader from "nextjs-toploader"
+
+import "./globals.css"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -20,6 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
+        <NextTopLoader showSpinner={false} />
         <Providers>
           <Header />
           {children}

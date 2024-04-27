@@ -36,19 +36,22 @@ export default async function Home() {
                 <div className="w-6 h-6 border-[1px] rounded-sm"></div>
               </div>
 
-              <h1 className="text-lg capitalize font-semibold w-[260px]">
+              <h1 className="text-lg capitalize font-semibold w-[260px] flex items-center justify-start">
                 {board.title}
               </h1>
             </div>
 
-            <div className="flex gap-2">traits here</div>
+            <div className="flex gap-2 items-center justify-start w-[500px]">
+              traits here
+            </div>
 
-            <div className="flex gap-2">
+            <div className="flex gap-2 items-center justify-start w-[700px]">
               {filteredData.map(
                 (slot: any, index: number) =>
                   slot &&
                   slot.tileIcon && (
                     <img
+                      className="rounded-sm"
                       key={index}
                       src={`https://raw.communitydragon.org/latest/game/${slot.tileIcon
                         .toLowerCase()
