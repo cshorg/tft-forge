@@ -44,7 +44,7 @@ export function BoardForm({ board }: any) {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-8 pb-[300px]"
+        className="space-y-4 w-[260px]"
       >
         <FormField
           control={form.control}
@@ -67,14 +67,16 @@ export function BoardForm({ board }: any) {
             <FormItem>
               <FormLabel>Description</FormLabel>
               <FormControl>
-                <Textarea {...field} />
+                <Textarea className="max-h-[240px]" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
 
-        <Button type="submit">Submit</Button>
+        <Button className="w-full" type="submit">
+          Submit
+        </Button>
       </form>
     </Form>
   )

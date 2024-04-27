@@ -21,11 +21,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={inter.className}>
+      <body className={`${inter.className}`}>
         <NextTopLoader showSpinner={false} />
         <Providers>
           <Header />
-          {children}
+          <div className="mt-[100px]">{children}</div>
         </Providers>
       </body>
     </html>

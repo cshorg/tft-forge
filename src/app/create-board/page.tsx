@@ -17,7 +17,7 @@ export default async function CreateBoard() {
   const data = await getData()
 
   return (
-    <main className="container mx-auto flex flex-col gap-10 pt-[100px]">
+    <main className="container mx-auto flex justify-center items-center flex-col gap-10">
       <CreateBoardForm data={data} />
     </main>
   )
