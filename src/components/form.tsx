@@ -74,8 +74,8 @@ export function BoardForm({ board }: any) {
           )}
         />
 
-        <Button className="w-full" type="submit">
-          Submit
+        <Button variant={"outline"} className="w-full" type="submit">
+          Submit Board
         </Button>
       </form>
     </Form>

@@ -14,3 +14,4 @@
 - [ ] add sorting for champions/items
 - [ ] style traits dynamically
 - [ ] add voting for main page
+- [ ] optimize for mobile

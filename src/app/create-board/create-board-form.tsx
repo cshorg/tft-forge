@@ -1,19 +1,26 @@
 "use client"
 
 import { useState } from "react"
-
 import { TraitsList } from "@/components/traitsList"
 import { ItemsList } from "@/components/itemsList"
 import { BoardForm } from "@/components/form"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Input } from "@/components/ui/input"
+import { useQuery } from "@tanstack/react-query"
+import { getData } from "./page"
 
-export default function CreateBoardForm({ data }: { data: any }) {
+export default function CreateBoardForm() {
   const [board, setBoard] = useState<any[]>(
     Array.from({ length: 4 }, () =>
       Array.from({ length: 7 }, () => ({ name: "", img: "" }))
     )
   )
+
+  const { data, error, isLoading } = useQuery({
+    queryKey: ["data"],
+    queryFn: getData,
+    staleTime: Infinity
+  })
 
   const handleDrag = (e: any, champ: any) => {
     e.dataTransfer.setData("selectedChamp", JSON.stringify(champ))
@@ -89,8 +96,16 @@ export default function CreateBoardForm({ data }: { data: any }) {
     setBoard(updatedBoard)
   }
 
+  if (error) {
+    return <div>{error.message}</div>
+  }
+
+  if (isLoading) {
+    return <div>Loading...</div>
+  }
+
   return (
-    <div className="grid grid-cols-5 grid-rows-2 gap-4">
+    <div className="grid grid-cols-5 grid-rows-2 gap-4 mb-[100px]">
       <div className="col-span-1 row-span-2">
         <TraitsList data={data} board={board} />
       </div>
@@ -134,7 +149,7 @@ export default function CreateBoardForm({ data }: { data: any }) {
       <div className="w-full p-2 col-span-3 ">
         <div className="flex justify-between">
           <Tabs defaultValue="normal" className="w-[300px]">
-            <TabsList className="w-full">
+            <TabsList className="w-full ">
               <TabsTrigger className="w-[50%]" value="normal">
                 Name
               </TabsTrigger>
