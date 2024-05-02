@@ -5,17 +5,12 @@ import { TraitsList } from "@/components/traitsList"
 import { ItemsList } from "@/components/itemsList"
 import { BoardForm } from "@/components/form"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger
-} from "@/components/ui/tooltip"
+
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useQuery } from "@tanstack/react-query"
 import { getData } from "./page"
-import { Coins } from "lucide-react"
+import { Champion } from "@/components/champion"
 
 export default function CreateBoardForm() {
   const { data, error, isLoading } = useQuery({
@@ -117,10 +112,6 @@ export default function CreateBoardForm() {
     return <div>Loading...</div>
   }
 
-  useEffect(() => {
-    console.log(board)
-  }, [board])
-
   return (
     <div className="grid grid-cols-5 grid-rows-2 gap-4 mb-[100px]">
       <div className="col-span-1 row-span-2">
@@ -208,58 +199,19 @@ export default function CreateBoardForm() {
                     : "border-yellow-500"
 
                 return (
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <img
-                          src={`https://raw.communitydragon.org/latest/game/${champion.tileIcon
-                            .toLowerCase()
-                            .replace(/\.(tex|dds)$/, ".png")}`}
-                          alt="champion"
-                          draggable
-                          key={champion.name}
-                          onClick={() => handleAdd(champion)}
-                          onDragStart={(e) => handleDrag(e, champion)}
-                          className={` ${style} border-[2px] cursor-pointer rounded-sm flex items-center justify-center`}
-                        />
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <div className="flex flex-col gap-2 p-1">
-                          <div className="flex items-center justify-between">
-                            <h3 className="font-bold">{champion.name}</h3>
-                            <div className="flex gap-1">
-                              <Coins size={14} />
-                              {champion.cost}
-                            </div>
-                          </div>
-                          <div className="flex flex-col gap-2">
-                            <div className="flex flex-col">
-                              {champion.traits.map((trait: any) => (
-                                <span key={trait} className="text-xs">
-                                  {trait}
-                                </span>
-                              ))}
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <img
-                                src={`https://raw.communitydragon.org/latest/game/${champion.ability.icon
-                                  .toLowerCase()
-                                  .replace(/\.(tex|dds)$/, ".png")}`}
-                                className="w-7 h-7"
-                              />
-                              <div className="flex flex-col">
-                                <span>{champion.ability.name}</span>
-                                <span>
-                                  {champion.stats.initialMana} /{" "}
-                                  {champion.stats.mana}
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
+                  <Champion champion={champion} key={champion.name}>
+                    <img
+                      src={`https://raw.communitydragon.org/latest/game/${champion.tileIcon
+                        .toLowerCase()
+                        .replace(/\.(tex|dds)$/, ".png")}`}
+                      alt="champion"
+                      draggable
+                      key={champion.name}
+                      onClick={() => handleAdd(champion)}
+                      onDragStart={(e) => handleDrag(e, champion)}
+                      className={` ${style} border-[2px] cursor-pointer rounded-sm flex items-center justify-center`}
+                    />
+                  </Champion>
                 )
               })}
           </TabsContent>
@@ -283,58 +235,19 @@ export default function CreateBoardForm() {
                     ? "border-purple-600"
                     : "border-yellow-500"
                 return (
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <img
-                          src={`https://raw.communitydragon.org/latest/game/${champion.tileIcon
-                            .toLowerCase()
-                            .replace(/\.(tex|dds)$/, ".png")}`}
-                          alt="champion"
-                          draggable
-                          key={champion.name}
-                          onClick={() => handleAdd(champion)}
-                          onDragStart={(e) => handleDrag(e, champion)}
-                          className={` ${style} border-[2px] cursor-pointer rounded-sm flex items-center justify-center`}
-                        />
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <div className="flex flex-col gap-2 p-1">
-                          <div className="flex items-center justify-between">
-                            <h3 className="font-bold">{champion.name}</h3>
-                            <div className="flex gap-1">
-                              <Coins size={14} />
-                              {champion.cost}
-                            </div>
-                          </div>
-                          <div className="flex flex-col gap-2">
-                            <div className="flex flex-col">
-                              {champion.traits.map((trait: any) => (
-                                <span key={trait} className="text-xs">
-                                  {trait}
-                                </span>
-                              ))}
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <img
-                                src={`https://raw.communitydragon.org/latest/game/${champion.ability.icon
-                                  .toLowerCase()
-                                  .replace(/\.(tex|dds)$/, ".png")}`}
-                                className="w-7 h-7"
-                              />
-                              <div className="flex flex-col">
-                                <span>{champion.ability.name}</span>
-                                <span>
-                                  {champion.stats.initialMana} /{" "}
-                                  {champion.stats.mana}
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
+                  <Champion champion={champion} key={champion.name}>
+                    <img
+                      src={`https://raw.communitydragon.org/latest/game/${champion.tileIcon
+                        .toLowerCase()
+                        .replace(/\.(tex|dds)$/, ".png")}`}
+                      alt="champion"
+                      draggable
+                      key={champion.name}
+                      onClick={() => handleAdd(champion)}
+                      onDragStart={(e) => handleDrag(e, champion)}
+                      className={` ${style} border-[2px] cursor-pointer rounded-sm flex items-center justify-center`}
+                    />
+                  </Champion>
                 )
               })}
           </TabsContent>
