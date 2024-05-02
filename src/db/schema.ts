@@ -71,7 +71,7 @@ export const boards = pgTable("boards", {
   userId: text("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
   title: text("title"),
   description: text("description"),
-  board: text("board").notNull()
+  board: text("board").notNull(),
 })
 
 export type Board = typeof boards.$inferSelect

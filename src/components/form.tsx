@@ -22,7 +22,7 @@ const formSchema = z.object({
   description: z.string().min(2).max(250)
 })
 
-export function BoardForm({ board }: any) {
+export function BoardForm({ board, traits }: any) {
   const router = useRouter()
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -35,7 +35,9 @@ export function BoardForm({ board }: any) {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const boardString = JSON.stringify(board)
+
     const data = { ...values, board: boardString }
+
     await createBoardAction(data)
     router.push("/")
   }

@@ -55,7 +55,7 @@ export function ItemsList({ itemData }: any) {
             Traits
           </TabsTrigger>
         </TabsList>
-        <TabsContent className="grid grid-cols-6 gap-2" value="normal">
+        <TabsContent className="grid grid-cols-6 gap-2 mt-2" value="normal">
           {filterNormal(itemData).map((filteredItem: any, index: number) => (
             <Item key={index} filteredItem={filteredItem} />
           ))}
