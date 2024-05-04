@@ -13,7 +13,7 @@
 - [ ] style build page/shared page/profile page
 - [x] add sorting for champions/items
 - [ ] style traits dynamically
-- [ ] add tooltips on build page and show page
+- [x] add tooltips on build page and show page
 - [ ] add voting for main page
 - [ ] optimize for mobile
-- [ ] toast notification for submtting/removing/liking posts
+- [x] toast notification for submtting/removing/liking posts

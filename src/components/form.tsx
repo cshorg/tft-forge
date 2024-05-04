@@ -16,6 +16,8 @@ import { useForm } from "react-hook-form"
 import { createBoardAction } from "@/app/create-board/actions"
 import { z } from "zod"
 import { useRouter } from "next/navigation"
+import { ToastAction } from "@/components/ui/toast"
+import { useToast } from "@/components/ui/use-toast"
 
 const formSchema = z.object({
   title: z.string().min(5).max(50),
@@ -24,7 +26,7 @@ const formSchema = z.object({
 
 export function BoardForm({ board, traits }: any) {
   const router = useRouter()
-
+  const { toast } = useToast()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -38,7 +40,19 @@ export function BoardForm({ board, traits }: any) {
 
     const data = { ...values, board: boardString }
 
-    await createBoardAction(data)
+    try {
+      await createBoardAction(data)
+
+      toast({
+        title: "Successfully created board!"
+      })
+    } catch (e) {
+      toast({
+        title: "Error creating board!",
+        description: `${e}`
+      })
+    }
+
     router.push("/")
   }
 

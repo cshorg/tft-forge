@@ -3,6 +3,7 @@ import { Inter } from "next/font/google"
 import { Providers } from "./providers"
 import { Header } from "@/components/header"
 import NextTopLoader from "nextjs-toploader"
+import { Toaster } from "@/components/ui/toaster"
 
 import "./globals.css"
 
@@ -22,6 +23,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.className}`}>
+        <Toaster />
         <NextTopLoader showSpinner={false} />
         <Providers>
           <Header />
