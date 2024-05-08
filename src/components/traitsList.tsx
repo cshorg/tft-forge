@@ -3,53 +3,20 @@
 import { useState, useEffect } from "react"
 import { Trait } from "./trait"
 import { ShieldAlert } from "lucide-react"
+import { getIcons } from "@/hooks/traits"
+import { getTraits } from "@/hooks/traits"
+import { traitInfo } from "@/hooks/traits"
 
 export function TraitsList({ data, board }: any) {
   const [traitList, setTraitList] = useState(new Map())
   const [traitIcons, setTraitIcons] = useState(new Map())
-  const traitData = data["sets"][11]["traits"]
-
-  const traitInfo = (trait: any) => {
-    return traitData.find((tData: any) => tData.name === trait)
-  }
-
-  // fix duplicate champs adding to the traits list
-  const getTraits = () => {
-    const traitsMap = new Map()
-    board.flat().forEach((champion: any) => {
-      if (champion.traits) {
-        champion.traits.forEach((trait: any) => {
-          if (traitsMap.has(trait)) {
-            traitsMap.set(trait, traitsMap.get(trait) + 1)
-          } else {
-            traitsMap.set(trait, 1)
-          }
-        })
-      }
-    })
-    setTraitList(traitsMap)
-  }
-
-  const getIcons = () => {
-    const iconsMap = new Map()
-
-    data["sets"][11]["traits"].forEach((trait: any) => {
-      iconsMap.set(
-        trait.name,
-        "https://raw.communitydragon.org/latest/game/" +
-          trait.icon.toLowerCase().replace(".tex", ".png")
-      )
-    })
-
-    setTraitIcons(iconsMap)
-  }
 
   useEffect(() => {
-    getTraits()
+    setTraitList(getTraits(board))
   }, [board])
 
   useEffect(() => {
-    getIcons()
+    setTraitIcons(getIcons(data))
   }, [])
 
   return (
@@ -67,7 +34,7 @@ export function TraitsList({ data, board }: any) {
           trait={trait}
           value={value}
           icon={traitIcons.get(trait)}
-          info={traitInfo(trait)}
+          info={traitInfo(trait, data["sets"][11]["traits"])}
         />
       ))}
     </div>
