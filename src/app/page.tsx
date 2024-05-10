@@ -7,7 +7,7 @@ export default async function Home() {
   const boards = await getBoards()
 
   return (
-    <main className="flex min-h-screen flex-col items-center container ">
+    <main className="flex min-h-screen flex-col items-center container mb-6">
       <div className="flex items-center justify-between w-full">
         <h1 className="text-2xl font-semibold">Popular Boards</h1>
         <div className="flex gap-2">

@@ -23,10 +23,12 @@ function AccountDropdown() {
         <Button variant={"outline"}>{session.data?.user?.name}</Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem className="cursor-pointer">
-          <UserIcon size={18} className="mr-2" />
-          Profile
-        </DropdownMenuItem>
+        <Link href={"/my-boards"}>
+          <DropdownMenuItem className="cursor-pointer">
+            <UserIcon size={18} className="mr-2" />
+            My Boards
+          </DropdownMenuItem>
+        </Link>
         <DropdownMenuItem
           className="cursor-pointer"
           onClick={() =>

@@ -92,7 +92,7 @@ export default function BoardList({ boards }: any) {
 
                   return (
                     <>
-                      {!styles.every((style) => style === "") && (
+                      {!styles.every((style: any) => style === "") && (
                         <div
                           key={trait}
                           className={`${
