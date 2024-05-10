@@ -12,6 +12,7 @@ import { getIcons } from "@/hooks/traits"
 import { traitInfo } from "@/hooks/traits"
 
 export default function BoardList({ boards }: any) {
+  const [loadMore, setLoadMore] = useState(6) //defaault posts shown on main page
   const [traitIcons, setTraitIcons] = useState(new Map())
   const { data, error, isLoading } = useQuery({
     queryKey: ["data"],
@@ -36,7 +37,7 @@ export default function BoardList({ boards }: any) {
 
   return (
     <>
-      {boards.map((board: any, i: number) => {
+      {boards.slice(0, loadMore).map((board: any, i: number) => {
         const filteredData = JSON.parse(board.board)
           .flat()
           .filter((slot: any) => slot.name !== "")
@@ -153,6 +154,15 @@ export default function BoardList({ boards }: any) {
           </div>
         )
       })}
+      {boards.length > loadMore && (
+        <Button
+          className="w-[160px] my-6"
+          variant={"outline"}
+          onClick={() => setLoadMore((prev) => prev + 6)}
+        >
+          Load More
+        </Button>
+      )}
     </>
   )
 }

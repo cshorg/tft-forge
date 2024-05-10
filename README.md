@@ -15,3 +15,4 @@
 - [ ] add voting for main page
 - [ ] optimize for mobile
 - [x] toast notification for submtting/removing/liking posts
+- [ ] load more button main page
