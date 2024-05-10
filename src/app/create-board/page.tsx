@@ -1,6 +1,7 @@
+// create-board.tsx
 import CreateBoardForm from "./create-board-form"
 
-export async function getData() {
+export async function getData(): Promise<any> {
   const res = await fetch(
     "https://raw.communitydragon.org/14.6/cdragon/tft/en_us.json",
     { cache: "no-store" }
@@ -13,7 +14,7 @@ export async function getData() {
   return res.json()
 }
 
-export default function CreateBoard() {
+export default function CreateBoard(): JSX.Element {
   return (
     <main className="container mx-auto flex justify-center items-center flex-col gap-10">
       <CreateBoardForm />

@@ -91,10 +91,9 @@ export default function BoardList({ boards }: any) {
                       : []
 
                   return (
-                    <>
+                    <div key={trait}>
                       {!styles.every((style: any) => style === "") && (
                         <div
-                          key={trait}
                           className={`${
                             styles.includes(1)
                               ? "bg-[url(/bronze.svg)] bg-contain"
@@ -115,7 +114,7 @@ export default function BoardList({ boards }: any) {
                           />
                         </div>
                       )}
-                    </>
+                    </div>
                   )
                 })}
             </div>

@@ -17,7 +17,7 @@ export function TraitsList({ data, board }: any) {
 
   useEffect(() => {
     setTraitIcons(getIcons(data))
-  }, [])
+  }, [data])
 
   return (
     <div className="flex flex-col gap-2">
@@ -31,6 +31,7 @@ export function TraitsList({ data, board }: any) {
       )}
       {Array.from(traitList).map(([trait, value]) => (
         <Trait
+          key={trait}
           trait={trait}
           value={value}
           icon={traitIcons.get(trait)}
