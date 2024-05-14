@@ -4,7 +4,7 @@
 
 - [x] restructure components/pages
 - [x] implement tanstack for loading/error management
-- [ ] show build page + schema
+- [x] show build page + schema
 - [x] get trait list for front page
 - [ ] add items to champions in build and show on main page/build page
 - [ ] show posts in profile page to remove build
