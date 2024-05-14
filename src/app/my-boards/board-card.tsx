@@ -8,6 +8,18 @@ import { Trash2 } from "lucide-react"
 import { useQuery } from "@tanstack/react-query"
 import { getData } from "@/app/create-board/page"
 import { IsLoading } from "@/components/isLoading"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger
+} from "@/components/ui/alert-dialog"
+import { deleteMyBoard } from "./actions"
 
 export default function BoardCard({ board, filteredData }) {
   const { data, error, isLoading } = useQuery({
@@ -44,9 +56,31 @@ export default function BoardCard({ board, filteredData }) {
           <Link href={`/board/${board.id}`}>View Build</Link>
         </Button>
 
-        <Button variant="outline">
-          <Trash2 size={18} />
-        </Button>
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <Button variant="destructive">
+              <Trash2 size={18} />
+            </Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+              <AlertDialogDescription>
+                This action cannot be undone. This will permanently delete your
+                board and remove your board data.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction
+                className="bg-red-600 text-white hover:bg-red-400"
+                onClick={() => deleteMyBoard(board.id)}
+              >
+                Delete
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
     </div>
   )
