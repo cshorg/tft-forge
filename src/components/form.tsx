@@ -16,7 +16,6 @@ import { useForm } from "react-hook-form"
 import { createBoardAction } from "@/app/create-board/actions"
 import { z } from "zod"
 import { useRouter } from "next/navigation"
-import { ToastAction } from "@/components/ui/toast"
 import { useToast } from "@/components/ui/use-toast"
 
 const formSchema = z.object({
@@ -24,7 +23,7 @@ const formSchema = z.object({
   description: z.string().min(2).max(250)
 })
 
-export function BoardForm({ board, traits }: any) {
+export function BoardForm({ board }: any) {
   const router = useRouter()
   const { toast } = useToast()
   const form = useForm<z.infer<typeof formSchema>>({
@@ -38,10 +37,14 @@ export function BoardForm({ board, traits }: any) {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const boardString = JSON.stringify(board)
 
-    const data = { ...values, board: boardString }
+    const data = { board: boardString }
 
     try {
-      await createBoardAction(data)
+      await createBoardAction({
+        ...data,
+        title: values.title,
+        description: values.description
+      })
 
       toast({
         title: "Successfully created board!"

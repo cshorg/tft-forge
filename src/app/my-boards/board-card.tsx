@@ -20,8 +20,10 @@ import {
   AlertDialogTrigger
 } from "@/components/ui/alert-dialog"
 import { deleteMyBoard } from "./actions"
+import { useToast } from "@/components/ui/use-toast"
 
 export default function BoardCard({ board, filteredData }) {
+  const { toast } = useToast()
   const { data, error, isLoading } = useQuery({
     queryKey: ["data"],
     queryFn: getData,
@@ -33,11 +35,7 @@ export default function BoardCard({ board, filteredData }) {
   }
 
   if (isLoading) {
-    return (
-      <div>
-        <IsLoading />
-      </div>
-    )
+    return <IsLoading />
   }
 
   return (
@@ -74,7 +72,22 @@ export default function BoardCard({ board, filteredData }) {
               <AlertDialogCancel>Cancel</AlertDialogCancel>
               <AlertDialogAction
                 className="bg-red-600 text-white hover:bg-red-400"
-                onClick={() => deleteMyBoard(board.id)}
+                onClick={() => {
+                  try {
+                    deleteMyBoard(board.id)
+                    toast({
+                      title: "Successfully deleted board!",
+                      description: board.title + " has been deleted.",
+                      variant: "destructive"
+                    })
+                  } catch (error) {
+                    toast({
+                      title: "Error trying deleted board!",
+                      description: error,
+                      variant: "destructive"
+                    })
+                  }
+                }}
               >
                 Delete
               </AlertDialogAction>
