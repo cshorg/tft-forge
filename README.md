@@ -7,7 +7,7 @@
 - [x] show build page + schema
 - [x] get trait list for front page
 - [ ] add items to champions in build and show on main page/build page
-- [ ] show posts in profile page to remove build
+- [x] show posts in profile page to remove build
 - [ ] style build page/shared page/profile page
 - [x] add sorting for champions/items
 - [x] style traits dynamically
