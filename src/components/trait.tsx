@@ -2,14 +2,28 @@
 
 import { Play } from "lucide-react"
 
-export function Trait({ trait, value, icon, info }: any) {
+export function Trait({ trait, value, icon, info, styles }: any) {
   return (
     <div
       key={trait}
       className="flex items-center gap-3 w-full bg-white/20 rounded-sm h-12"
     >
-      <div className=" hexagon-small flex items-center justify-center ml-2">
-        <img className="w-5" src={icon} />
+      <div
+        className={`${
+          styles.includes(1)
+            ? "bg-[url(/bronze.svg)] bg-contain"
+            : styles.includes(3)
+            ? "bg-[url(/silver.svg)] bg-contain"
+            : styles.includes(4)
+            ? "bg-[url(/gold.svg)] bg-contain"
+            : styles.includes(5)
+            ? "bg-[url(/gold.svg)] bg-contain"
+            : styles.includes(6)
+            ? "bg-[url(/unique.svg)] bg-contain"
+            : ""
+        } flex items-center justify-center ml-2`}
+      >
+        <img className="h-8 w-8 p-[7px]" src={icon} />
       </div>
 
       <div className="w-5 h-[32px] flex items-center justify-center rounded-sm bg-neutral-200/30">

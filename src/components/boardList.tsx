@@ -33,6 +33,7 @@ export default function BoardList({ boards }: any) {
         const filteredData = JSON.parse(board.board)
           .flat()
           .filter((slot: any) => slot.name !== "")
+          .slice(0, 10)
 
         return (
           <div

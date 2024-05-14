@@ -29,15 +29,36 @@ export function TraitsList({ data, board }: any) {
           </p>
         </div>
       )}
-      {Array.from(traitList).map(([trait, value]) => (
-        <Trait
-          key={trait}
-          trait={trait}
-          value={value}
-          icon={traitIcons.get(trait)}
-          info={traitInfo(trait, data["sets"][11]["traits"])}
-        />
-      ))}
+      {Array.from(traitList)
+        .sort((a, b) => b[1] - a[1])
+        .map(([trait, value]) => {
+          const styles = Array.isArray(
+            traitInfo(trait, data["sets"][11]["traits"]).effects
+          )
+            ? traitInfo(trait, data["sets"][11]["traits"]).effects.map(
+                (effect: any, i: number) => {
+                  if (value >= effect.minUnits && value <= effect.maxUnits) {
+                    return effect.style
+                  }
+                  return ""
+                }
+              )
+            : []
+          return (
+            <>
+              {
+                <Trait
+                  key={trait}
+                  trait={trait}
+                  value={value}
+                  icon={traitIcons.get(trait)}
+                  info={traitInfo(trait, data["sets"][11]["traits"])}
+                  styles={styles}
+                />
+              }
+            </>
+          )
+        })}
     </div>
   )
 }
