@@ -72,6 +72,7 @@ export const boards = pgTable("boards", {
   title: text("title"),
   description: text("description"),
   board: text("board").notNull(),
+  votes: text('votes').array().default([]),
 })
 
 export type Board = typeof boards.$inferSelect

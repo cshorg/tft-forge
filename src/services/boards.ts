@@ -1,6 +1,6 @@
 import { db } from "@/db"
 import { boards } from "@/db/schema"
-import { eq, ne } from "drizzle-orm"
+import { eq } from "drizzle-orm"
 import { getSession } from "@/lib/auth"
 import { unstable_noStore } from "next/cache"
 
@@ -39,3 +39,4 @@ export async function getMyBoards() {
 export async function deleteBoard(boardId: string) {
   await db.delete(boards).where(eq(boards.id, boardId))
 }
+

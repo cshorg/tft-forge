@@ -43,7 +43,8 @@ export function BoardForm({ board }: any) {
       await createBoardAction({
         ...data,
         title: values.title,
-        description: values.description
+        description: values.description,
+        votes: [] // Change the type from string to string[]
       })
 
       toast({

@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button"
 import { getBoards } from "@/services/boards"
 import Link from "next/link"
-import BoardList from "@/components/boardList"
+import BoardList from "@/components/boardList/boardList"
 
 export default async function Home() {
   const boards = await getBoards()

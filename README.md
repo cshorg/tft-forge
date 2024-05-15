@@ -12,7 +12,7 @@
 - [x] add sorting for champions/items
 - [x] style traits dynamically
 - [x] add tooltips on build page and show page
-- [ ] add voting for main page
+- [x] add voting for main page
 - [ ] optimize for mobile
 - [x] toast notification for submtting/removing/liking posts
 - [x] load more button main page
