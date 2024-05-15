@@ -13,6 +13,7 @@ export default async function Board(props: any) {
           <Link href={"/"}>Back</Link>
         </Button>
         <h1 className="font-semibold text-2xl">{board?.title}</h1>
+        <div></div>
       </div>
 
       <ShowBoard board={board} />

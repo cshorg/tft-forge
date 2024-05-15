@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query"
 import { getData } from "@/app/create-board/page"
 import { IsLoading } from "@/components/isLoading"
 import { useEffect } from "react"
+import { Champion } from "@/components/champion"
 
 export default function ShowBoard({ board }: any) {
   const { data, error, isLoading } = useQuery({
@@ -27,7 +28,7 @@ export default function ShowBoard({ board }: any) {
 
       parsedBoard.forEach((col, i) => {
         col.forEach((row, j) => {
-          const { x, y, name, img } = row
+          const { x, y } = row
           if (
             x !== undefined &&
             y !== undefined &&
@@ -67,15 +68,16 @@ export default function ShowBoard({ board }: any) {
               rowIndex % 2 !== 0 ? "ml-[100px] relative" : ""
             } gap-4 mr-[50px]`}
           >
-            {row.map((col: any, colIndex: number) => {
+            {row.map((champ: any, idx: number) => {
               return (
-                <div key={colIndex} className="bg-neutral-900 hexagon relative">
+                <div key={idx} className="bg-neutral-900 hexagon relative">
                   <img
-                    src={`https://raw.communitydragon.org/latest/game/${col.tileIcon
+                    src={`https://raw.communitydragon.org/latest/game/${champ.tileIcon
                       ?.toString()
                       .toLowerCase()
                       .replace(/\.(tex|dds)$/, ".png")}`}
                     className="block object-cover w-[100%] h-auto"
+                    alt=""
                   />
                 </div>
               )
