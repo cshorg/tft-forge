@@ -16,14 +16,12 @@ export default function ListedChamps({ filteredData }) {
                   : slot.cost === 4
                   ? "border-purple-600"
                   : "border-yellow-500"
-              } border-[2px]`}
+              } border-[2px] h-[30px] w-[30px] md:h-[46px] md:w-[46px]`}
               key={index}
               src={`https://raw.communitydragon.org/latest/game/${slot.tileIcon
                 .toLowerCase()
                 .replace(/\.(tex|dds)$/, ".png")}`}
               alt="champion"
-              height={46}
-              width={46}
             />
           )
       )}

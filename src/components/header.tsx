@@ -49,7 +49,7 @@ export function Header() {
   const isLoggedIn = !!session.data
 
   return (
-    <header className="px-10 bg-neutral-100/90 dark:bg-neutral-900/80 h-[60px] backdrop-blur z-10 border-b-[1px] flex items-center w-full fixed top-0">
+    <header className="px-4 md:px-10 bg-neutral-100/90 dark:bg-neutral-900/80 h-[60px] backdrop-blur z-10 border-b-[1px] flex items-center w-full fixed top-0">
       <div className="flex justify-between items-center w-full">
         <Link
           className="text-lg font-semibold flex items-center gap-2 hover:opacity-90 ease-in transition"
