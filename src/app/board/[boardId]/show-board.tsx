@@ -56,17 +56,19 @@ export default function ShowBoard({ board }: any) {
   }
 
   return (
-    <div className="grid grid-cols-5 mt-10">
-      <div className="col-span-1">
+    <div className="grid xl:grid-cols-5 mt-10">
+      <div className="xl:col-span-1 mx-10 xl:mx-0 overflow-y-auto">
         <TraitsList data={data} board={showBoard} />
       </div>
-      <div className="flex flex-col items-center col-span-3">
+      <div className="flex flex-col items-center mt-6 xl:mt-0 xl:col-span-3">
         {showBoard.map((row: any, rowIndex: number) => (
           <div
             key={rowIndex}
             className={`flex ${
-              rowIndex % 2 !== 0 ? "ml-[100px] relative" : ""
-            } gap-4 mr-[50px]`}
+              rowIndex % 2 !== 0
+                ? "xl:ml-[100px] lg:ml-[90px] md:ml-[90px] ml-[40px] relative"
+                : ""
+            } gap-2 md:gap-4 xl:gap-4 mr-[20px] xl:mr-[50px]`}
           >
             {row.map((champ: any, idx: number) => {
               return (
@@ -85,9 +87,9 @@ export default function ShowBoard({ board }: any) {
           </div>
         ))}
       </div>
-      <div className="col-span-1">
+      <div className="xl:col-span-1 mx-10 xl:mx-0 mt-6 xl:mt-0">
         <div className="flex flex-col gap-1">
-          <h1 className="font-semibold text-xl">Build Description</h1>
+          <h1 className="font-bold text-2xl">{board?.title}</h1>
           <p className="text-sm text-wrap">{board.description}</p>
         </div>
       </div>

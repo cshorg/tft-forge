@@ -7,13 +7,11 @@ export default async function Board(props: any) {
   const board = await getBoard(props.params.boardId)
 
   return (
-    <main className="container mx-auto flex justify-center items-center flex-col gap-10">
+    <main className="container mx-auto flex items-center flex-col">
       <div className="flex justify-between w-full">
         <Button variant={"outline"} asChild>
           <Link href={"/"}>Back</Link>
         </Button>
-        <h1 className="font-semibold text-2xl">{board?.title}</h1>
-        <div></div>
       </div>
 
       <ShowBoard board={board} />
