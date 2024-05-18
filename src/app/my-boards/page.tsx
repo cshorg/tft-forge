@@ -12,6 +12,7 @@ export default async function MyBoards() {
           const filteredData = JSON.parse(board.board)
             .flat()
             .filter((slot: any) => slot.name !== "")
+            .slice(0, 10)
 
           return (
             <BoardCard
