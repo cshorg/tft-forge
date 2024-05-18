@@ -20,9 +20,9 @@ export function TraitsList({ data, board }: any) {
   }, [data])
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex xl:flex-col gap-2">
       {traitList.size <= 0 && (
-        <div className=" h-[140px] border-[1px] rounded-md flex flex-col items-center justify-center opacity-70">
+        <div className="xl:h-[140px] border-[1px] rounded-md w-full flex xl:flex-col py-4 items-center justify-center opacity-70">
           <ShieldAlert />
           <p className="text-xs w-[140px] text-center mt-2">
             Select champions to activate traits

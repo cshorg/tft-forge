@@ -113,18 +113,20 @@ export default function CreateBoardForm() {
   }
 
   return (
-    <div className="grid grid-cols-5 grid-rows-2 gap-4 mb-[100px]">
-      <div className="col-span-1 row-span-2">
+    <div className="grid grid-cols-1 xl:grid-cols-5 xl:grid-rows-2 gap-4 mb-[100px]">
+      <div className="xl:col-span-1 max-w-full overflow-x-auto row-span-2">
         <TraitsList data={data} board={board} />
       </div>
 
-      <div className="flex flex-col col-span-3 items-center min-h-[450px]">
+      <div className="flex flex-col xl:col-span-3 items-center xl:min-h-[450px]">
         {board.map((row, rowIndex) => (
           <div
             key={rowIndex}
             className={`flex ${
-              rowIndex % 2 !== 0 ? "ml-[100px] relative" : ""
-            } gap-4 mr-[50px]`}
+              rowIndex % 2 !== 0
+                ? "xl:ml-[100px] lg:ml-[90px] md:ml-[90px] ml-[40px] relative"
+                : ""
+            } gap-2 md:gap-4 xl:gap-4 mr-[20px] xl:mr-[50px]`}
           >
             {row.map((slot: any, slotIndex: number) => (
               <div
@@ -150,14 +152,14 @@ export default function CreateBoardForm() {
         ))}
       </div>
 
-      <div className="col-span-1">
+      <div className="order-last xl:-order-none xl:col-span-1">
         <BoardForm board={board} traits={TraitsList} />
       </div>
 
-      <div className="w-full p-2 col-span-3 min-h-[400px]">
+      <div className="w-full p-2 xl:col-span-3 min-h-[400px]">
         <Tabs defaultValue="name">
-          <div className="flex items-center justify-between">
-            <TabsList className="grid grid-cols-2 w-[300px]">
+          <div className="flex xl:flex-row flex-col gap-2 items-start xl:items-center justify-between">
+            <TabsList className="grid grid-cols-2 w-full xl:w-[300px]">
               <TabsTrigger className="w-[100%]" value="name">
                 Name
               </TabsTrigger>
@@ -169,7 +171,7 @@ export default function CreateBoardForm() {
               <Input
                 type="text"
                 placeholder="Search..."
-                className="min-w-[200px] max-w-[200px] p-2 rounded-md"
+                className="xl:min-w-[200px] xl:max-w-[200px] p-2 rounded-md"
                 onChange={(e) => setSearch(e.target.value.toLowerCase())}
                 value={search}
               />
@@ -179,7 +181,10 @@ export default function CreateBoardForm() {
             </div>
           </div>
 
-          <TabsContent value="name" className="grid grid-cols-12 gap-2 mt-2">
+          <TabsContent
+            value="name"
+            className="grid grid-cols-7 md:grid-cols-10 xl:grid-cols-12 gap-1 xl:gap-2 mt-2 max-h-[312px] xl:max-h-[400px] overflow-y-auto"
+          >
             {data["sets"][11]["champions"]
               .filter(
                 (champ: any) =>
@@ -215,7 +220,10 @@ export default function CreateBoardForm() {
                 )
               })}
           </TabsContent>
-          <TabsContent value="cost" className="grid grid-cols-12 gap-2">
+          <TabsContent
+            value="cost"
+            className="grid grid-cols-7 md:grid-cols-10 xl:grid-cols-12 gap-1 xl:gap-2 mt-2 max-h-[312px] xl:max-h-[400px] overflow-y-auto"
+          >
             {data["sets"][11]["champions"]
               .filter(
                 (champ: any) =>
@@ -253,7 +261,7 @@ export default function CreateBoardForm() {
           </TabsContent>
         </Tabs>
       </div>
-      <div className="span-col-1">
+      <div className="xl:span-col-1">
         <ItemsList itemData={data["items"]} />
       </div>
     </div>

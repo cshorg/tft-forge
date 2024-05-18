@@ -45,8 +45,8 @@ export function ItemsList({ itemData }: any) {
   }
 
   return (
-    <div className="flex gap-2 flex-wrap min-w-[260px] max-w-[260px]  p-2 h-[100%]">
-      <Tabs defaultValue="normal" className="w-full">
+    <div className="flex gap-2 flex-wrap xl:min-w-[260px] xl:max-w-[260px] p-2 h-[100%]">
+      <Tabs defaultValue="normal" className="w-full lg:w-[300px]">
         <TabsList className="w-full">
           <TabsTrigger className="w-[50%]" value="normal">
             Normal
@@ -55,12 +55,18 @@ export function ItemsList({ itemData }: any) {
             Traits
           </TabsTrigger>
         </TabsList>
-        <TabsContent className="grid grid-cols-6 gap-2 mt-2" value="normal">
+        <TabsContent
+          className="grid grid-cols-7 md:grid-cols-6 gap-1 xl:gap-2 mt-2"
+          value="normal"
+        >
           {filterNormal(itemData).map((filteredItem: any, index: number) => (
             <Item key={index} filteredItem={filteredItem} />
           ))}
         </TabsContent>
-        <TabsContent className="grid grid-cols-6 gap-2" value="traits">
+        <TabsContent
+          className="grid grid-cols-8 md:grid-cols-6 gap-2 mt-2"
+          value="traits"
+        >
           {filterTraits(itemData).map((filteredItem: any, index: number) => (
             <Item key={index} filteredItem={filteredItem} />
           ))}

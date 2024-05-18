@@ -23,15 +23,15 @@ export function Trait({ trait, value, icon, info, styles }: any) {
             : ""
         } flex items-center justify-center ml-2`}
       >
-        <img className="h-8 w-8 p-[7px]" src={icon} />
+        <img className="h-8 min-w-8 p-[7px]" src={icon} />
       </div>
 
       <div className="w-5 h-[32px] flex items-center justify-center rounded-sm bg-neutral-200/30">
         {value}
       </div>
       <div className="">
-        <div className="text-sm">{trait}</div>
-        <div className="flex gap-1 text-[12px]">
+        <div className="text-sm pr-2">{trait}</div>
+        <div className="flex gap-1 text-[12px] pr-2">
           {info.effects.map((effect: any, index: number) => (
             <div key={index} className="flex items-center gap-1">
               {index !== 0 && index % 2 === 0 && (

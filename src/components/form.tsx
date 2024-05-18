@@ -62,10 +62,7 @@ export function BoardForm({ board }: any) {
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-4 w-[260px]"
-      >
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 ">
         <FormField
           control={form.control}
           name="title"
