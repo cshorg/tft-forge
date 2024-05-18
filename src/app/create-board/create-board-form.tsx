@@ -104,6 +104,54 @@ export default function CreateBoardForm() {
     setSearch("")
   }
 
+  const handleTouchStart = (e: any, champ: any) => {
+    e.preventDefault()
+    e.stopPropagation()
+    e.target.classList.add("dragging")
+    const touch = e.targetTouches[0]
+    e.dataTransfer = {
+      setData: (type: string, val: string) => {
+        e.target.dataset[type] = val
+      },
+      getData: (type: string) => {
+        return e.target.dataset[type]
+      }
+    }
+    e.dataTransfer.setData("selectedChamp", JSON.stringify(champ))
+  }
+
+  const handleTouchMove = (e: any) => {
+    e.preventDefault()
+    e.stopPropagation()
+    const touch = e.targetTouches[0]
+    const element = document.querySelector(".dragging") as HTMLElement // Explicitly type element as HTMLElement
+    if (element) {
+      element.style.position = "absolute"
+      element.style.left = `${touch.pageX - element.offsetWidth / 2}px`
+      element.style.top = `${touch.pageY - element.offsetHeight / 2}px`
+    }
+  }
+
+  const handleTouchEnd = (e: any) => {
+    e.preventDefault()
+    e.stopPropagation()
+    const element = document.querySelector(".dragging") as HTMLElement
+    if (element) {
+      element.classList.remove("dragging")
+      element.style.position = "static"
+      element.style.left = "auto"
+      element.style.top = "auto"
+      const dropTarget = document.elementFromPoint(
+        e.changedTouches[0].clientX,
+        e.changedTouches[0].clientY
+      ) as HTMLElement
+      if (dropTarget && dropTarget.dataset.dropTarget) {
+        const [row, col] = dropTarget.dataset.dropTarget.split("-").map(Number)
+        handleDrop({ dataTransfer: element.dataset }, row, col)
+      }
+    }
+  }
+
   if (error) {
     return <div>{error.message}</div>
   }
@@ -134,6 +182,9 @@ export default function CreateBoardForm() {
                 onClick={() => handleRemove(rowIndex, slotIndex)}
                 onDragStart={(e) => handleDrag(e, slot)}
                 onDragOver={handleDragOver}
+                onTouchStart={(e) => handleTouchStart(e, slot)}
+                onTouchMove={(e) => handleTouchMove(e)}
+                onTouchEnd={(e) => handleTouchEnd(e)}
                 onDrop={(e) => handleDrop(e, rowIndex, slotIndex)}
                 className=" bg-neutral-900 hexagon relative"
               >
