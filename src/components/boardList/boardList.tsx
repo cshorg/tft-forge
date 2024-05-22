@@ -17,7 +17,7 @@ import Board from "./board"
 import Link from "next/link"
 
 export default function BoardList({ boards }: any) {
-  const [loadMore, setLoadMore] = useState(6)
+  const [loadMore, setLoadMore] = useState(5)
   const [likes, setLikes] = useState(false)
   const [name, setName] = useState(false)
   const [search, setSearch] = useState("")
