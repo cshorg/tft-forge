@@ -67,7 +67,7 @@ export default function BoardList({ boards }: any) {
       {boards
         .slice(0, loadMore)
         .sort((a, b) => {
-          if (name) {
+          if (likes) {
             return b.title.localeCompare(a.title)
           } else {
             return a.title.localeCompare(b.title)
