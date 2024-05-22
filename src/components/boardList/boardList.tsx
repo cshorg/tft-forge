@@ -19,7 +19,6 @@ import Link from "next/link"
 export default function BoardList({ boards }: any) {
   const [loadMore, setLoadMore] = useState(5)
   const [likes, setLikes] = useState(false)
-  const [name, setName] = useState(false)
   const [search, setSearch] = useState("")
 
   const { data, error, isLoading } = useQuery({
@@ -55,14 +54,6 @@ export default function BoardList({ boards }: any) {
             {likes ? <ArrowDown01 size={16} /> : <ArrowUp01 size={16} />}
           </Button>
           <Button
-            onClick={() => setName((prev) => !prev)}
-            className={` ${name && "bg-neutral-800"} flex items-center gap-2`}
-            variant={"outline"}
-          >
-            Name
-            {name ? <ArrowDownAZ size={16} /> : <ArrowUpAZ size={16} />}
-          </Button>
-          <Button
             className="flex items-center gap-2"
             asChild
             variant={"outline"}
@@ -78,8 +69,8 @@ export default function BoardList({ boards }: any) {
         .sort((a, b) => {
           if (name) {
             return b.title.localeCompare(a.title)
-          } else if (likes) {
-            return a.votes.length - b.votes.length
+          } else {
+            return a.title.localeCompare(b.title)
           }
         })
         .filter((b) => b.title.toLowerCase().includes(search))
