@@ -68,9 +68,9 @@ export default function BoardList({ boards }: any) {
         .slice(0, loadMore)
         .sort((a, b) => {
           if (likes) {
-            return b.title.localeCompare(a.title)
-          } else {
             return a.title.localeCompare(b.title)
+          } else {
+            return b.title.localeCompare(a.title)
           }
         })
         .filter((b) => b.title.toLowerCase().includes(search))
