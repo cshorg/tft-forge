@@ -13,6 +13,9 @@
 - [x] style traits dynamically
 - [x] add tooltips on build page and show page
 - [x] add voting for main page
-- [ ] optimize for mobile
+- [x] optimize for mobile
 - [x] toast notification for submtting/removing/liking posts
 - [x] load more button main page
+- [ ] zustand for global data fetch
+- [ ] rewrite likes
+- [ ] add filtering for title and desc

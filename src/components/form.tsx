@@ -24,8 +24,9 @@ const formSchema = z.object({
 })
 
 export function BoardForm({ board }: any) {
-  const router = useRouter()
   const { toast } = useToast()
+  const router = useRouter()
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -44,7 +45,7 @@ export function BoardForm({ board }: any) {
         ...data,
         title: values.title,
         description: values.description,
-        votes: [] // Change the type from string to string[]
+        votes: []
       })
 
       toast({

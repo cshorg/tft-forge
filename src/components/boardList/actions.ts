@@ -54,3 +54,19 @@ export async function downvoteBoard(boardId: string) {
 
   revalidatePath("/")
 }
+
+export async function checkVote(boardId: string) {
+  unstable_noStore()
+
+  const session = await getSession()
+
+  if (!session) throw new Error("Unauthorized") 
+
+  const foundBoard = await db.query.boards.findFirst({ where: eq(boards.id, boardId) })
+
+  if (foundBoard && foundBoard.votes.includes(session.user.id)) {
+    return true
+  }
+
+  return false
+}

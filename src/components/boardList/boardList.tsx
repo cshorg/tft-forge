@@ -2,21 +2,25 @@
 
 import { useQuery } from "@tanstack/react-query"
 import { getData } from "@/app/create-board/page"
-import { ChevronDown, ChevronUp } from "lucide-react"
-import { Heart } from "lucide-react"
-import { Button } from "../ui/button"
-import Link from "next/link"
 import { useState } from "react"
-import ListedTraits from "../listedTraits"
-import ListedChamps from "../listedChamps"
+import { Button } from "../ui/button"
 import { IsLoading } from "../isLoading"
-import { upvoteBoard, downvoteBoard } from "./actions"
-import { useToast } from "../ui/use-toast"
+import { Input } from "../ui/input"
+import {
+  ArrowUp01,
+  ArrowDown01,
+  ArrowUpAZ,
+  ArrowDownAZ,
+  SquarePen
+} from "lucide-react"
+import Board from "./board"
+import Link from "next/link"
 
 export default function BoardList({ boards }: any) {
-  const [loadMore, setLoadMore] = useState(6) //defaault posts shown on main page
-
-  const { toast } = useToast()
+  const [loadMore, setLoadMore] = useState(6)
+  const [likes, setLikes] = useState(false)
+  const [name, setName] = useState(false)
+  const [search, setSearch] = useState("")
 
   const { data, error, isLoading } = useQuery({
     queryKey: ["data"],
@@ -34,100 +38,65 @@ export default function BoardList({ boards }: any) {
 
   return (
     <>
-      {boards.slice(0, loadMore).map((board: any, i: number) => {
-        const filteredData = JSON.parse(board.board)
-          .flat()
-          .filter((slot: any) => slot.name !== "")
-          .slice(0, 10)
-
-        return (
-          <div
-            key={board.id}
-            className="flex flex-col lg:flex-row border-[1px] justify-between items-start gap-4 lg:gap-8 py-5 px-6 w-full mt-4 rounded-sm"
+      <div className="flex justify-between w-full">
+        <h1 className="text-lg font-semibold md:text-2xl">Popular Boards</h1>
+        <div className="flex gap-2 flex-wrap justify-end">
+          <Input
+            className="w-[200px]"
+            placeholder="Search"
+            onChange={(e) => setSearch(e.target.value.toLowerCase())}
+          />
+          <Button
+            onClick={() => setLikes((prev) => !prev)}
+            className={` ${likes && "bg-neutral-800"} flex items-center gap-2`}
+            variant={"outline"}
           >
-            <div className="flex flex-col basis-1/6">
-              {/* <div className="flex gap-4 items-center">
-                <div className="flex flex-col gap-1 bg-neutral-900 py-1 px-2 items-center justify-center rounded-sm">
-                  <ChevronUp
-                    onClick={async () => {
-                      try {
-                        await upvoteBoard(board.id)
-                        toast({
-                          title: "Successfully upvoted board!"
-                        })
-                      } catch (error) {
-                        if (error.message === "Already upvoted") {
-                          toast({
-                            title: "You have already upvoted this board.",
-                            variant: "destructive"
-                          })
-                        }
-                      }
-                    }}
-                    size={22}
-                    className="cursor-pointer hover:opacity-80 transition ease-in-out duration-150"
-                  />
-                  <div className="text-sm font-bold">{board.votes.length}</div>
-                  <ChevronDown
-                    onClick={async () => {
-                      try {
-                        await downvoteBoard(board.id)
-                        toast({
-                          title: "Successfully downvoted board!"
-                        })
-                      } catch (error) {
-                        if (
-                          error.message === "You have not upvoted this board."
-                        ) {
-                          toast({
-                            title: "You have not upvoted this board.",
-                            variant: "destructive"
-                          })
-                        }
-                      }
-                    }}
-                    size={24}
-                    className="cursor-pointer hover:opacity-80 transition ease-in-out duration-150"
-                  />
-                </div>
-              </div> */}
-
-              <h1 className="text-md md:text-lg capitalize font-semibold flex items-center truncate min-w-[200px] max-w-[200px] justify-start">
-                {board.title}
-              </h1>
-              <div className="text-[10px] lg:text-xs flex gap-1 text-neutral-100/90">
-                <span>0</span>likes
-              </div>
-              <div>
-                <Button className="mt-2 hidden lg:flex" variant="outline">
-                  <Heart />
-                </Button>
-              </div>
-            </div>
-
-            <div className="flex max-w-[200px] flex-wrap lg:basis-1/2">
-              <ListedTraits
-                board={board.board}
-                isLoading={isLoading}
-                data={data}
-              />
-            </div>
-
-            <div className="flex gap-2 items-center justify-start flex-wrap grow lg:basis-1/2">
-              <ListedChamps filteredData={filteredData} />
-            </div>
-            <div className="flex justify-between items-center lg:justify-end w-full lg:basis-1/6">
-              <Button asChild variant={"outline"}>
-                <Link href={`/board/${board.id}`}>View Build</Link>
-              </Button>
-
-              <Button variant="outline" className="flex lg:hidden">
-                <Heart />
-              </Button>
-            </div>
-          </div>
-        )
-      })}
+            Likes
+            {likes ? <ArrowDown01 size={16} /> : <ArrowUp01 size={16} />}
+          </Button>
+          <Button
+            onClick={() => setName((prev) => !prev)}
+            className={` ${name && "bg-neutral-800"} flex items-center gap-2`}
+            variant={"outline"}
+          >
+            Name
+            {name ? <ArrowDownAZ size={16} /> : <ArrowUpAZ size={16} />}
+          </Button>
+          <Button
+            className="flex items-center gap-2"
+            asChild
+            variant={"outline"}
+          >
+            <Link href="/create-board">
+              Create <SquarePen size={16} />
+            </Link>
+          </Button>
+        </div>
+      </div>
+      {boards
+        .slice(0, loadMore)
+        .sort((a, b) => {
+          if (name) {
+            return b.title.localeCompare(a.title)
+          } else if (likes) {
+            return a.votes.length - b.votes.length
+          }
+        })
+        .filter((b) => b.title.toLowerCase().includes(search))
+        .map((board: any, i: number) => {
+          const filteredData = JSON.parse(board.board)
+            .flat()
+            .filter((slot: any) => slot.name !== "")
+            .slice(0, 10)
+          return (
+            <Board
+              board={board}
+              data={data}
+              isLoading={isLoading}
+              filteredData={filteredData}
+            />
+          )
+        })}
       {boards.length > loadMore && (
         <Button
           className="w-[160px] my-6"
