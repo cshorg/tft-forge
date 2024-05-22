@@ -90,6 +90,7 @@ export default function BoardList({ boards }: any) {
             .slice(0, 10)
           return (
             <Board
+              key={board.id}
               board={board}
               data={data}
               isLoading={isLoading}
