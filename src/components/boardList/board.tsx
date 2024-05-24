@@ -66,7 +66,7 @@ export default function Board({ board, data, isLoading, filteredData }: any) {
         <h1 className="text-md md:text-lg capitalize font-semibold flex items-center truncate min-w-[200px] max-w-[200px] justify-start">
           {board.title}
         </h1>
-        <div className="text-[10px] lg:text-xs flex gap-1 text-neutral-100/90">
+        <div className="text-[10px] lg:text-xs flex gap-1 text-neutral-100/90 text-neutral-900 dark:text-neutral-200">
           <span>{board.votes.length}</span>likes
         </div>
         <div>

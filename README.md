@@ -17,5 +17,6 @@
 - [x] toast notification for submtting/removing/liking posts
 - [x] load more button main page
 - [ ] zustand for global data fetch
-- [ ] rewrite likes
-- [ ] add filtering for title and desc
+- [x] rewrite likes
+- [x] add filtering for main pages
+- [ ] finish light mode

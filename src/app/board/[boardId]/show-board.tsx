@@ -72,7 +72,10 @@ export default function ShowBoard({ board }: any) {
           >
             {row.map((champ: any, idx: number) => {
               return (
-                <div key={idx} className="bg-neutral-900 hexagon relative">
+                <div
+                  key={idx}
+                  className="bg-neutral-200 dark:bg-neutral-900 hexagon relative"
+                >
                   <img
                     src={`https://raw.communitydragon.org/latest/game/${champ.tileIcon
                       ?.toString()

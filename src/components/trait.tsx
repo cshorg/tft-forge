@@ -6,7 +6,7 @@ export function Trait({ trait, value, icon, info, styles }: any) {
   return (
     <div
       key={trait}
-      className="flex items-center gap-3 w-full bg-white/20 rounded-sm h-12"
+      className="flex items-center gap-3 w-full bg-neutral-200 dark:bg-white/20 rounded-sm h-12"
     >
       <div
         className={`${

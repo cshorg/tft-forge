@@ -186,7 +186,7 @@ export default function CreateBoardForm() {
                 onTouchMove={(e) => handleTouchMove(e)}
                 onTouchEnd={(e) => handleTouchEnd(e)}
                 onDrop={(e) => handleDrop(e, rowIndex, slotIndex)}
-                className=" bg-neutral-900 hexagon relative"
+                className="bg-neutral-200 dark:bg-neutral-900 hexagon relative"
               >
                 {slot.name && (
                   <img

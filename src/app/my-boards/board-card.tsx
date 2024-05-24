@@ -24,6 +24,7 @@ import { useToast } from "@/components/ui/use-toast"
 
 export default function BoardCard({ board, filteredData }) {
   const { toast } = useToast()
+
   const { data, error, isLoading } = useQuery({
     queryKey: ["data"],
     queryFn: getData,
@@ -44,7 +45,7 @@ export default function BoardCard({ board, filteredData }) {
         <h1 className="text-md md:text-lg capitalize font-semibold flex items-center truncate min-w-[200px] max-w-[200px] justify-start">
           {board.title}
         </h1>
-        <div className="text-[10px] lg:text-xs flex gap-1 text-neutral-100/90">
+        <div className="text-[10px] lg:text-xs flex gap-1 text-neutral-900 dark:text-neutral-100/90">
           <span>0</span>likes
         </div>
       </div>
