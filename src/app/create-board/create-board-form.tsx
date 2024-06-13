@@ -192,6 +192,7 @@ export default function CreateBoardForm() {
                   <img
                     src={`https://raw.communitydragon.org/latest/game/${slot.tileIcon
                       .toLowerCase()
+                      .replace(".tft_set11", "")
                       .replace(/\.(tex|dds)$/, ".png")}`}
                     alt="champion"
                     className="block object-cover w-[100%] h-auto"
@@ -259,6 +260,7 @@ export default function CreateBoardForm() {
                     <img
                       src={`https://raw.communitydragon.org/latest/game/${champion.tileIcon
                         .toLowerCase()
+                        .replace(".tft_set11", "")
                         .replace(/\.(tex|dds)$/, ".png")}`}
                       alt="champion"
                       draggable
@@ -298,6 +300,7 @@ export default function CreateBoardForm() {
                     <img
                       src={`https://raw.communitydragon.org/latest/game/${champion.tileIcon
                         .toLowerCase()
+                        .replace(".tft_set11", "")
                         .replace(/\.(tex|dds)$/, ".png")}`}
                       alt="champion"
                       draggable

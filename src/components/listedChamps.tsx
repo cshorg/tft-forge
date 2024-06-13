@@ -20,6 +20,7 @@ export default function ListedChamps({ filteredData }) {
               key={index}
               src={`https://raw.communitydragon.org/latest/game/${slot.tileIcon
                 .toLowerCase()
+                .replace(".tft_set11", "")
                 .replace(/\.(tex|dds)$/, ".png")}`}
               alt="champion"
             />

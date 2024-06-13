@@ -6,13 +6,7 @@ import { useState } from "react"
 import { Button } from "../ui/button"
 import { IsLoading } from "../isLoading"
 import { Input } from "../ui/input"
-import {
-  ArrowUp01,
-  ArrowDown01,
-  ArrowUpAZ,
-  ArrowDownAZ,
-  SquarePen
-} from "lucide-react"
+import { ArrowUp01, ArrowDown01, SquarePen } from "lucide-react"
 import Board from "./board"
 import Link from "next/link"
 

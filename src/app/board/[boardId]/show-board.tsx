@@ -80,6 +80,7 @@ export default function ShowBoard({ board }: any) {
                     src={`https://raw.communitydragon.org/latest/game/${champ.tileIcon
                       ?.toString()
                       .toLowerCase()
+                      .replace(".tft_set11", "")
                       .replace(/\.(tex|dds)$/, ".png")}`}
                     className="block object-cover w-[100%] h-auto"
                     alt=""

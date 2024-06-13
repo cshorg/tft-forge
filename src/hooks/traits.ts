@@ -21,7 +21,7 @@ export const getIcons = (data: any) => {
     iconsMap.set(
       trait.name,
       "https://raw.communitydragon.org/latest/game/" +
-        trait.icon.toLowerCase().replace(".tex", ".png")
+        trait.icon.toLowerCase().replace(".tft_set11", "").replace(".tex", ".png")
     )
   })
 
